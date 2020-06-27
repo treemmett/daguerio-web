@@ -19,7 +19,7 @@ const config: ConfigurationFactory = (env, { mode }) => {
           pathRewrite: {
             '^/api': '',
           },
-          target: 'http://localhost:8080',
+          target: 'http://localhost:4000',
         },
       },
     },
