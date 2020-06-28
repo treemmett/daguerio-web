@@ -1,0 +1,13 @@
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: background-color 0.2s ease;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+
+  &:hover,
+  &:focus {
+    background-color: #888a;
+  }
+}

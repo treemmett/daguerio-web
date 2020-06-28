@@ -3,6 +3,11 @@ declare module '*.scss' {
   export default content;
 }
 
+declare module '*.svg' {
+  const content: React.FC<React.SVGAttributes<SVGElement>>;
+  export default content;
+}
+
 declare module 'app' {
   export interface Photo {
     dominantColor: string;

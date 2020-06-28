@@ -19,6 +19,7 @@
     display: block;
     width: 100%;
     height: auto;
+    border-radius: inherit;
     transition: opacity 1s ease;
   }
 }
@@ -32,6 +33,28 @@
   overflow: hidden;
   background-color: #000;
   z-index: 100;
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    height: 4rem;
+    padding: 1rem;
+    color: #fff;
+    background: linear-gradient(to top, #0000 40%, #0008);
+
+    .icon {
+      margin-left: 1rem;
+
+      &:first-of-type {
+        margin-right: auto;
+        margin-left: 0;
+      }
+    }
+  }
 
   img {
     display: block;
