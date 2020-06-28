@@ -35,7 +35,7 @@ const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
       className={styles.photo}
       ref={ref}
       style={{
-        backgroundColor: `#${color}`,
+        backgroundColor: stage < 2 ? `#${color}` : 'transparent',
         gridRow: `span ${Math.floor(renderedHeight + 16)}`,
       }}
     >
