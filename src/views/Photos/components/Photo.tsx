@@ -1,15 +1,23 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Thumbnail } from 'app';
+import keyInteraction from '../../../helpers/keyInteraction';
 import styles from '../Photos.scss';
 
 export interface PhotoProps {
   color: string;
   height: number;
+  onClick?: () => void;
   thumbnails: Thumbnail[];
   width: number;
 }
 
-const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
+const Photo: FC<PhotoProps> = ({
+  color,
+  height,
+  thumbnails,
+  onClick,
+  width,
+}) => {
   const [stage, setStage] = useState(0);
   function updateStage(newState: number): void {
     setStage((s) => (newState > s ? newState : s));
@@ -33,11 +41,15 @@ const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
   return (
     <div
       className={styles.photo}
+      onClick={onClick}
+      onKeyDown={keyInteraction({ enter: onClick, space: onClick })}
       ref={ref}
+      role="button"
       style={{
         backgroundColor: stage < 2 ? `#${color}` : 'transparent',
         gridRow: `span ${Math.floor(renderedHeight + 16)}`,
       }}
+      tabIndex={0}
     >
       {stage < 3 && (
         <img

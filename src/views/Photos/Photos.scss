@@ -5,20 +5,43 @@
   grid-column-gap: 1rem;
   padding: 1rem;
   padding-bottom: 0;
+}
 
-  .photo {
-    position: relative;
-    margin-bottom: 1rem;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    transition: background-color 1s ease;
+.photo {
+  position: relative;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: background-color 1s ease;
 
-    img {
-      position: absolute;
-      display: block;
-      width: 100%;
-      height: auto;
-      transition: opacity 1s ease;
-    }
+  img {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: opacity 1s ease;
+  }
+}
+
+.preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: #000;
+  z-index: 100;
+
+  img {
+    display: block;
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }
