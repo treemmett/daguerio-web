@@ -10,11 +10,11 @@ const PHOTOS = gql`
     photos {
       id
       dominantColor
+      height
+      width
       thumbnails {
-        id
-        height
         url
-        width
+        type
       }
     }
   }
@@ -30,10 +30,10 @@ const Photos: FC = () => {
       {data.photos.map((photo) => (
         <Photo
           color={photo.dominantColor}
-          height={photo.thumbnails[0].height}
+          height={photo.height}
           key={photo.id}
-          url={photo.thumbnails[0].url}
-          width={photo.thumbnails[0].width}
+          thumbnails={photo.thumbnails ?? []}
+          width={photo.width}
         />
       ))}
     </div>

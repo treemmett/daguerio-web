@@ -1,14 +1,20 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
+import { Thumbnail } from 'app';
 import styles from '../Photos.scss';
 
 export interface PhotoProps {
   color: string;
   height: number;
+  thumbnails: Thumbnail[];
   width: number;
-  url: string;
 }
 
-const Photo: FC<PhotoProps> = ({ color, width, height, url }) => {
+const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
+  const [stage, setStage] = useState(0);
+  function updateStage(newState: number): void {
+    setStage((s) => (newState > s ? newState : s));
+  }
+
   const ref = useRef<HTMLImageElement>();
   const [renderedHeight, setRenderedHeight] = useState<number>(height);
 
@@ -32,7 +38,25 @@ const Photo: FC<PhotoProps> = ({ color, width, height, url }) => {
         gridRow: `span ${Math.floor(renderedHeight + 16)}`,
       }}
     >
-      <img alt="test" ref={ref} src={url} />
+      {stage < 3 && (
+        <img
+          alt="test"
+          onLoad={() => updateStage(1)}
+          ref={ref}
+          src={thumbnails.find((t) => t.type === 'BLUR').url}
+          style={{ opacity: stage > 0 ? 1 : 0 }}
+        />
+      )}
+      {stage > 0 && (
+        <img
+          alt="test"
+          onLoad={() => updateStage(2)}
+          onTransitionEnd={() => updateStage(3)}
+          ref={ref}
+          src={thumbnails.find((t) => t.type === 'NORMAL').url}
+          style={{ opacity: stage >= 2 ? 1 : 0 }}
+        />
+      )}
     </div>
   );
 };

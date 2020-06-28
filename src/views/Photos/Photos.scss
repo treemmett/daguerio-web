@@ -7,12 +7,15 @@
   padding-bottom: 0;
 
   .photo {
+    position: relative;
     margin-bottom: 1rem;
 
     img {
+      position: absolute;
       display: block;
       width: 100%;
       height: auto;
+      transition: opacity 1s ease;
     }
   }
 }

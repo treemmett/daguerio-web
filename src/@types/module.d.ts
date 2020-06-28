@@ -7,14 +7,15 @@ declare module 'app' {
   export interface Photo {
     dominantColor: string;
     id: string;
+    height: number;
     thumbnails: Thumbnail[];
     url: string;
+    width: number;
   }
 
   export interface Thumbnail {
     id: string;
-    height: number;
+    type: 'BLUR' | 'NORMAL';
     url: string;
-    width: number;
   }
 }
