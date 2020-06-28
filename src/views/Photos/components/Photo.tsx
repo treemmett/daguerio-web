@@ -33,6 +33,7 @@ const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
   return (
     <div
       className={styles.photo}
+      ref={ref}
       style={{
         backgroundColor: `#${color}`,
         gridRow: `span ${Math.floor(renderedHeight + 16)}`,
@@ -42,7 +43,6 @@ const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
         <img
           alt="test"
           onLoad={() => updateStage(1)}
-          ref={ref}
           src={thumbnails.find((t) => t.type === 'BLUR').url}
           style={{ opacity: stage > 0 ? 1 : 0 }}
         />
@@ -52,7 +52,6 @@ const Photo: FC<PhotoProps> = ({ color, height, thumbnails, width }) => {
           alt="test"
           onLoad={() => updateStage(2)}
           onTransitionEnd={() => updateStage(3)}
-          ref={ref}
           src={thumbnails.find((t) => t.type === 'NORMAL').url}
           style={{ opacity: stage >= 2 ? 1 : 0 }}
         />
