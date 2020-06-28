@@ -2,12 +2,13 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from '../Photos.scss';
 
 export interface PhotoProps {
+  color: string;
   height: number;
   width: number;
   url: string;
 }
 
-const Photo: FC<PhotoProps> = ({ width, height, url }) => {
+const Photo: FC<PhotoProps> = ({ color, width, height, url }) => {
   const ref = useRef<HTMLImageElement>();
   const [renderedHeight, setRenderedHeight] = useState<number>(height);
 
@@ -27,7 +28,7 @@ const Photo: FC<PhotoProps> = ({ width, height, url }) => {
     <div
       className={styles.photo}
       style={{
-        backgroundColor: 'red',
+        backgroundColor: `#${color}`,
         gridRow: `span ${Math.floor(renderedHeight + 16)}`,
       }}
     >
