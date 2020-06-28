@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Photo from './components/Photo';
 import { gql } from 'apollo-boost';
 import styles from './Photos.scss';
 import { useQuery } from '@apollo/react-hooks';
@@ -11,6 +12,7 @@ const PHOTOS = gql`
         id
         height
         url
+        width
       }
     }
   }
@@ -23,6 +25,7 @@ interface Photos {
       id: string;
       height: number;
       url: string;
+      width: number;
     }[];
   }[];
 }
@@ -35,15 +38,12 @@ const Photos: FC = () => {
   return (
     <div className={styles.photos}>
       {data.photos.map((photo) => (
-        <div
-          className={styles.photo}
+        <Photo
+          height={photo.thumbnails[0].height}
           key={photo.id}
-          style={{
-            gridRow: `span ${Math.floor(photo.thumbnails[0].height / 100)}`,
-          }}
-        >
-          <img alt="alt" src={photo.thumbnails[0].url} />
-        </div>
+          url={photo.thumbnails[0].url}
+          width={photo.thumbnails[0].width}
+        />
       ))}
     </div>
   );
