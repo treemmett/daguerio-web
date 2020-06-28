@@ -30,6 +30,7 @@
     "autoprefixer": "^9.8.4",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^3.6.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.3.1",
     "eslint-config-treemmett": "^0.4.1",
     "html-webpack-plugin": "^4.3.0",

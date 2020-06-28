@@ -24,21 +24,30 @@ const PHOTOS = gql`
 
 const Photos: FC = () => {
   const { data, loading } = useQuery<{ photos: PhotoInt[] }>(PHOTOS);
-  const [previewUrl, setPreviewUrl] = useState<string>(undefined);
+  const [previewId, setPreviewId] = useState<string>(undefined);
+  const previewImage = data?.photos.find((p) => p.id === previewId);
 
   if (loading) return <>loading</>;
 
   return (
     <div className={styles.photos}>
-      {previewUrl && (
-        <Preview close={() => setPreviewUrl(undefined)} url={previewUrl} />
+      {previewId && (
+        <Preview
+          close={() => setPreviewId(undefined)}
+          height={previewImage.height}
+          placeholderUrl={
+            previewImage.thumbnails.find((t) => t.type === 'NORMAL').url
+          }
+          url={previewImage.url}
+          width={previewImage.width}
+        />
       )}
       {data.photos.map((photo) => (
         <Photo
           color={photo.dominantColor}
           height={photo.height}
           key={photo.id}
-          onClick={() => setPreviewUrl(photo.url)}
+          onClick={() => setPreviewId(photo.id)}
           thumbnails={photo.thumbnails ?? []}
           width={photo.width}
         />

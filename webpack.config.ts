@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { ConfigurationFactory } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
