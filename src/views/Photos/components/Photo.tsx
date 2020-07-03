@@ -47,7 +47,7 @@ const Photo: FC<PhotoProps> = ({
       role="button"
       style={{
         backgroundColor: stage < 2 ? `#${color}` : 'transparent',
-        gridRow: `span ${Math.floor(renderedHeight + 16)}`,
+        gridRow: `span ${Math.floor(renderedHeight + 8)}`,
       }}
       tabIndex={0}
     >

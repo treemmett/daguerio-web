@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Photo from './components/Photo';
 import { Photo as PhotoInt } from 'app';
 import Preview from './components/Preview';
+import cx from 'classnames';
 import gql from 'graphql-tag';
 import styles from './Photos.scss';
 import { useQuery } from '@apollo/react-hooks';
@@ -27,7 +28,27 @@ const Photos: FC = () => {
   const [previewId, setPreviewId] = useState<string>(undefined);
   const previewImage = data?.photos.find((p) => p.id === previewId);
 
-  if (loading) return <>loading</>;
+  useEffect(() => {
+    if (loading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = null;
+    }
+  }, [loading]);
+
+  if (loading) {
+    return (
+      <div className={styles.photos}>
+        {new Array(50).fill(null).map((e, i) => (
+          <div
+            className={cx(styles.photo, styles.skeleton)}
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.photos}>
