@@ -1,5 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
+import { Photo } from 'app';
+import gql from 'graphql-tag';
 import styles from './Uploader.scss';
+import { useMutation } from '@apollo/react-hooks';
 import { v4 } from 'uuid';
 
 interface FileData {
@@ -7,6 +10,29 @@ interface FileData {
   file: File;
   isUploaded: boolean;
   isUploading: boolean;
+}
+
+const ADD_PHOTO = gql`
+  mutation($photo: Upload!) {
+    addPhoto(photo: $photo) {
+      id
+      height
+      width
+      dominantColor
+      url
+      thumbnails {
+        id
+        height
+        width
+        type
+        url
+      }
+    }
+  }
+`;
+
+interface AddPhoto {
+  addPhoto: Photo;
 }
 
 const Uploader: FC = () => {
@@ -50,6 +76,39 @@ const Uploader: FC = () => {
     window.addEventListener('drop', drop);
   }, []);
 
+  // add photo
+  const [addPhoto] = useMutation<{ addPhoto: Photo }, { photo: File }>(
+    ADD_PHOTO,
+    {
+      update: (cache, data) => {
+        const query = gql`
+          query Photos {
+            photos {
+              id
+              dominantColor
+              height
+              width
+              url
+              thumbnails {
+                url
+                type
+              }
+            }
+          }
+        `;
+
+        const { photos } = cache.readQuery<{ photos: Photo[] }>({
+          query,
+        });
+
+        cache.writeQuery<{ photos: Photo[] }>({
+          data: { photos: [...photos, data.data.addPhoto] },
+          query,
+        });
+      },
+    }
+  );
+
   useEffect(() => {
     const filesCurrentlyUploading = files.filter((f) => f.isUploading);
     if (filesCurrentlyUploading.length > 2) {
@@ -59,7 +118,7 @@ const Uploader: FC = () => {
     const fileToUpload = files.find((f) => !f.isUploaded && !f.isUploading);
     if (!fileToUpload) return;
 
-    setTimeout(() => {
+    addPhoto({ variables: { photo: fileToUpload.file } }).finally(() => {
       setFiles((s) =>
         s.map((f) => {
           if (f.id === fileToUpload.id) {
@@ -73,10 +132,18 @@ const Uploader: FC = () => {
           return f;
         })
       );
-    }, Math.random() * 3000);
-  }, [files]);
+    });
+  }, [files, addPhoto]);
 
   if (!files.length) return null;
+
+  if (files.every((f) => f.isUploaded)) {
+    return (
+      <div className={styles.uploader}>
+        <div className={styles.title}>{files.length} photos uploaded.</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.uploader}>
