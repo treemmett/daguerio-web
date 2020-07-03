@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import Photo from './components/Photo';
 import { Photo as PhotoInt } from 'app';
 import Preview from './components/Preview';
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 import styles from './Photos.scss';
 import { useQuery } from '@apollo/react-hooks';
 
