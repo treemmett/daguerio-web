@@ -1,6 +1,7 @@
 {
   "extends": "treemmett/react",
   "rules": {
+    "no-void": "off",
     "import/no-unresolved": ["error", { "ignore": ["app"] }]
   }
 }

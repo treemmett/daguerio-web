@@ -15,7 +15,8 @@
     "classnames": "^2.2.6",
     "graphql": "^15.1.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.4.0",
@@ -25,6 +26,7 @@
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "@types/sass": "^1.16.0",
+    "@types/uuid": "^8.0.0",
     "@types/webpack": "^4.41.18",
     "@types/webpack-dev-server": "^3.11.0",
     "autoprefixer": "^9.8.4",

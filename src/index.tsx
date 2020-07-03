@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Photos from './views/Photos/Photos';
+import Uploader from './components/Uploader/Uploader';
 import { render } from 'react-dom';
 
 const client = new ApolloClient({
@@ -13,6 +14,7 @@ const client = new ApolloClient({
 const App: FC = () => (
   <ApolloProvider client={client}>
     <Photos />
+    <Uploader />
   </ApolloProvider>
 );
 
