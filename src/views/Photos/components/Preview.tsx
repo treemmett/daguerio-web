@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Download from '../../../assets/icons/download.svg';
 import Icon from '../../../components/Icon';
 import Info from '../../../assets/icons/info.svg';
@@ -64,6 +64,21 @@ const Preview: FC<PreviewProps> = ({
   });
 
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const runAnimationFrame = useRef(false);
+  function openSidebar(open: boolean | ((state: boolean) => boolean)): void {
+    setSidebarOpen(open);
+    runAnimationFrame.current = true;
+  }
+  useEffect(() => {
+    function animate(): void {
+      calculateDimensions();
+      if (runAnimationFrame.current) {
+        requestAnimationFrame(animate);
+      }
+    }
+    animate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSidebarOpen]);
 
   return (
     <div className={styles.preview}>
@@ -81,7 +96,7 @@ const Preview: FC<PreviewProps> = ({
           <Icon
             className={styles.icon}
             label="View info"
-            onClick={() => setSidebarOpen((s) => !s)}
+            onClick={() => openSidebar((s) => !s)}
           >
             <Info />
           </Icon>
@@ -105,10 +120,15 @@ const Preview: FC<PreviewProps> = ({
         />
       </div>
 
-      <div className={cx(styles.sidebar, { [styles.open]: isSidebarOpen })}>
+      <div
+        className={cx(styles.sidebar, { [styles.open]: isSidebarOpen })}
+        onTransitionEnd={() => {
+          runAnimationFrame.current = false;
+        }}
+      >
         <div className={styles.content}>
           <div className={styles.header}>
-            <Icon label="Close info" onClick={() => setSidebarOpen(false)}>
+            <Icon label="Close info" onClick={() => openSidebar(false)}>
               <X />
             </Icon>
             <span className={styles.title}>Info</span>
