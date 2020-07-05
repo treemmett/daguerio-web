@@ -4,6 +4,7 @@ import Icon from '../../../components/Icon';
 import Info from '../../../assets/icons/info.svg';
 import Trash from '../../../assets/icons/trash.svg';
 import X from '../../../assets/icons/x.svg';
+import cx from 'classnames';
 import keyInteraction from '../../../helpers/keyInteraction';
 import styles from '../Photos.scss';
 
@@ -62,39 +63,58 @@ const Preview: FC<PreviewProps> = ({
     return () => window.removeEventListener('resize', calculateDimensions);
   });
 
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className={styles.preview} onClickCapture={closeModal}>
-      <div className={styles.header}>
-        <Icon className={styles.icon} label="Close" onClick={close}>
-          <X />
-        </Icon>
-        <Icon className={styles.icon} label="Delete photo">
-          <Trash />
-        </Icon>
-        <Icon className={styles.icon} label="Download photo">
-          <Download />
-        </Icon>
-        <Icon className={styles.icon} label="View info">
-          <Info />
-        </Icon>
+    <div className={styles.preview}>
+      <div className={styles.main} onClickCapture={closeModal}>
+        <div className={styles.header}>
+          <Icon className={styles.icon} label="Close" onClick={close}>
+            <X />
+          </Icon>
+          <Icon className={styles.icon} label="Delete photo">
+            <Trash />
+          </Icon>
+          <Icon className={styles.icon} label="Download photo">
+            <Download />
+          </Icon>
+          <Icon
+            className={styles.icon}
+            label="View info"
+            onClick={() => setSidebarOpen((s) => !s)}
+          >
+            <Info />
+          </Icon>
+        </div>
+
+        <img
+          alt="alt"
+          className={styles.placeholder}
+          src={placeholderUrl}
+          style={{
+            height: `${height}px`,
+            opacity: imageLoaded ? 0 : 1,
+            width: `${width}px`,
+          }}
+        />
+        <img
+          alt="alt"
+          className={styles.image}
+          onLoad={() => setImageLoaded(true)}
+          src={url}
+        />
       </div>
 
-      <img
-        alt="alt"
-        className={styles.placeholder}
-        src={placeholderUrl}
-        style={{
-          height: `${height}px`,
-          opacity: imageLoaded ? 0 : 1,
-          width: `${width}px`,
-        }}
-      />
-      <img
-        alt="alt"
-        className={styles.image}
-        onLoad={() => setImageLoaded(true)}
-        src={url}
-      />
+      <div className={cx(styles.sidebar, { [styles.open]: isSidebarOpen })}>
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <Icon label="Close info" onClick={() => setSidebarOpen(false)}>
+              <X />
+            </Icon>
+            <span className={styles.title}>Info</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
